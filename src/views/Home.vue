@@ -1,171 +1,173 @@
 <template>
-    <div>
-      <div class="welcomePart">
-        <label class="back" @click="$router.back()">返回</label>
-        <h2>狼人杀</h2>
-        <div class="userinfo">
-          <img src="../assets/people.png" class="imagePeople">
-        </div>
-      </div>
-      <button class="createPart" @click="createRoom">
-        <label class="createlabel">创建房间</label>
-      </button>
-      <button class="joinPart" @click="joinRoom">
-        <label class="joinlabel">加入房间</label>
-      </button>
-      <div class="helpPart" @click="help">
-        <label class="helplabel">新手帮助</label>
-      </div>
-      <joinRoom v-show="showJoin" v-on:closeme="closeme"></joinRoom>
-      <Tutorial v-show="showTutorial" v-on:closeme="closeme" :showTutorial = "showTutorial"></Tutorial>
+  <div class="main">
+    <van-nav-bar
+      title="首页"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
+    <div class="selectOpera">
+      <van-tabs v-model="operation">
+        <van-tab title="加入房间" name="joinRoom" :style="{marginTop: '50px'}">
+          <div class="joinRoominfo">
+            <van-field
+              v-model="username"
+              rows="1"
+              autosize
+              label="用户名"
+              type="textarea"
+              placeholder="请输入用户名"
+              :style="{ marginBottom: '20px'}"
+            />
+            <van-field
+              v-model="joinroomID"
+              rows="1"
+              autosize
+              label="房间号"
+              type="textarea"
+              placeholder="请输入房间号"
+              :style="{ marginTop: '20px', marginBottom: '20px'}"
+            />
+          </div>
+          <van-button
+            color="linear-gradient(to right, #4bb0ff, #6149f6)"
+            :style="{ marginTop: '20px', marginBottom: '20px'}" @click="comfirmJoinRoom">
+            加入房间
+          </van-button>
+        </van-tab>
+        <van-tab title="创建房间" name="createRoom">
+          <div class="roomNum">
+            <p class="roomIDspan">请输入6位房间号：</p>
+            <van-password-input
+              :value="createdroomID"
+              :mask="false"
+              :focused="showKeyboard"
+              @focus="showKeyboard = true"
+            />
+            <van-number-keyboard
+              :show="showKeyboard"
+              @input="onInput"
+              @delete="onDelete"
+              @blur="showKeyboard = false"
+            />
+          </div>
+          <div class="personCount">
+            <van-picker
+              title="选择房间人数"
+              show-toolbar
+              :columns="columns"
+              @confirm="onComfirmCreate"
+              @cancel="oncancelCreate"
+              @change="onChangeCount"
+              :default-index="1"
+              :style="{ marginTop: '20px', marginBottom: '20px'}"
+            >
+            </van-picker>
+          </div>
+        </van-tab>
+        <van-tab title="新手教程" name="beginnerHelper">
+          <div class="ruleIn">
+            <div>
+              <h4>角色</h4>
+              <p>预言家、猎人、女巫、村民、狼人</p>
+            </div>
+            <div>
+              <h3>胜利条件</h3>
+              <p>场上一共分为：神牌(好人)、平民（好人）、狼人（坏人）</p>
+              <p>好人胜利条件：场上不存在任何一只狼人，并且保证场上既有神牌存在也有平民存在。</p>
+              <p>狼人胜利条件：场上平民全死或者神全死，如果是在天黑阶段平民全死或者神全死，那么天亮后不管狼人是否还存活都判断狼人胜利。</p>
+            </div>
+          </div>
+        </van-tab>
+      </van-tabs>
     </div>
+  </div>
 </template>
 
 <script>
-  import joinRoom from '../components/joinRoom'
-  import Tutorial from '../components/BeginnerTutorial'
     export default {
-        name: "Home.vue",
-        components: {
-            joinRoom,
-            Tutorial
-        },
-        data: function () {
+        name: "HomePage.vue",
+        data() {
             return {
-                showJoin: false,   //是否显示加入房间的弹框,
-                showTutorial: false,   //是否显示新手教程
-            }
+                joinroomID: '',
+                username: '',
+                activeKey: 0,
+                operation: 'joinRoom',   //导航栏的操作，加入房间、创建房间、新手帮助
+                showKeyboard: true,
+                columns: ['6', '8', '10'],
+                personCount: this.$store.state.personCounts,     //房间人数，6/8/10
+                createdroomID: '',
+            };
         },
         methods: {
-            createRoom(){
-                this.$router.push('/createRoom')
+            onChange(index) {
             },
-            joinRoom(){
-                this.showJoin = true;
+            onClickLeft() {  //头部的返回
+                this.$router.back();
             },
-            closeme(){
-                this.showJoin = false;
-                this.showTutorial = false;
+            onInput(key) {  //键盘输入要创建的房间号
+                this.createdroomID = (this.createdroomID + key).slice(0, 6);
             },
-            help(){
-                this.showTutorial = true;
+            onDelete() {   //键盘删除要创建的房间号
+                this.createdroomID = this.createdroomID.slice(0, this.createdroomID.length - 1);
+            },
+            onComfirmCreate(value, index) {   //确定创建房间
+                if (this.createdroomID === "") {
+                    alert("房间号不能为空");
+                    return;
+                } else if (isNaN(this.createdroomID)) {//判断创建房间号是否为数字
+                    alert("房间号只能为数字");
+                    return;
+                }
+                const personCount = `${value}`;
+                const roomID = this.createdroomID;
+                if (personCount === 0) return;   //用户必须选择房间人数
+                this.$store.dispatch("createRooms", {personCount, roomID});
+            },
+            onChangeCount(picker, value, index) {
+            },
+            oncancelCreate() {
+                this.personCount = 0;
+            },
+            comfirmJoinRoom(){
+                const roomID = this.joinroomID;
+                const username = this.username;
+                this.$store.dispatch('joinRooms', {roomID, username});
             }
         },
-        // created() {   //从sessionStorage中获取username
-        //     let user = JSON.parse(sessionStorage.getItem('user') || '[]');
-        //     this.username = user.username;
-        // }
     }
 </script>
 
 <style scoped>
-  html,body{
-    margin: 0;
+  .main{
+    background-color: rgba(0,0,0,0.03);
+    height: 100%;
+  }
+  .selectOpera{
+    margin-top: 10%;
+    height: 40%;
+  }
+  .roomIDspan{
+    border: 1px solid lightcoral;
+    border-radius: 8px;
+    height: 5%;
+    width: 40%;
+    background-color: #4bb0ff;
+    color: white;
+  }
+  .ruleIn {
+    margin-top: 3px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+  }
+  .ruleIn>div{
+    border: 1px solid rgb(0, 33, 66);;
+    margin-top: 3px;
+    border-radius: 8px;
+  }
+  h4{
     padding: 0;
-  }
-  h2{
-    text-align: center;
     margin: 0;
-    padding: 0;
-    font-family: "Berlin Sans FB Demi";
-  }
-  .welcomePart{
-    background-image: url("../assets/wolf.jpg");
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 120px 120px;
-    color: white;
-    background-color: rgb(0, 33, 66);
-    width: 100%;
-    height: 170px;
-    margin-bottom: 5px;
-    position: relative;
-  }
-  .userinfo{
-    position: absolute;
-    left: 10px;
-    top:70px;
-    display: flex;
-    align-items: center;
-  }
-  .imagePeople{
-    width: 60px;
-    height: 60px;
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .createPart{
-    background-image: url("../assets/create.png");
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    background-position-x: center;
-    background-position-y: 10px;
-    background-size: 80px 80px;
-    background-color: cadetblue;
-    border: 2px solid white;
-    border-radius: 20px;
-    width: 100%;
-    height: 155px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
-  .createlabel{
-    position: absolute;
-    top: 100px;
-    color: white;
-    font-size: 16px;
-    font-family: "Berlin Sans FB Demi";
-  }
-  .joinPart{
-    background-image: url("../assets/join.png");
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    background-position-x: center;
-    background-position-y: 10px;
-    background-size: 80px 80px;
-    background-color: #87a072;
-    border: 2px solid white;
-    border-radius: 20px;
-    width: 100%;
-    height: 155px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
-  .joinlabel{
-    position: absolute;
-    top: 100px;
-    color: white;
-    font-size: 16px;
-    font-family: "Berlin Sans FB Demi";
-  }
-  .helpPart{
-    background-image: url("../assets/help.png");
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    background-position-x: center;
-    background-position-y: 10px;
-    background-size: 80px 80px;
-    background-color: #8772a0;
-    border: 2px solid white;
-    border-radius: 20px;
-    width: 100%;
-    height: 155px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
-  .helplabel{
-    position: absolute;
-    top: 100px;
-    color: white;
-    font-size: 16px;
-    font-family: "Berlin Sans FB Demi";
-  }
-  .back {
-    position: absolute;
-    top: 10px;
-    left: 10px;
   }
 </style>
