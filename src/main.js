@@ -34,7 +34,7 @@ Vue.use(vant);
 
 import store from './store'
 import axios from 'axios'
-Vue.config.productionTip = false;
+Vue.config.productioyinTip = false;
 // Vue.prototype.$axios = axios;
 Vue.use(MintUI);
 /* eslint-disable no-new */
