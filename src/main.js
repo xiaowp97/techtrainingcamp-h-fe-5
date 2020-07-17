@@ -8,6 +8,7 @@ import { ActionSheet } from 'vant'
 import 'mint-ui/lib/style.css'
 import store from './store'
 import axios from 'axios'
+import 'lib-flexible'
 Vue.config.productionTip = false;
 // Vue.prototype.$axios = axios;
 Vue.use(MintUI);

@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div style='width:10rem'>
     <div class="welcomePart">
       <label class="back" @click="$router.back()">返回</label>
-      <h2>创建房间</h2>
-      <h4>您的角色是：上帝</h4>
+      <h2 style='font-size:0.8rem'>创建房间</h2>
+      <h4 style='font-size:0.5rem'>您的角色是：上帝</h4>
     </div>
     <div class="roomNum">
       <div class="roomNumIn">
-        <span class="room">房间号</span><input v-model="roomID">
+        <span class="room">房间号</span><input style="width:8rem" v-model="roomID">
       </div>
     </div>
     <div class="personSum" :class="{on:personCount===6}" @click="personCount=6">
@@ -69,19 +69,20 @@
   }
 
   .roomNum {
-    height: 80px;
-    font-size: 24px;
+    width:10rem;
+    height: 3.5rem;
+    font-size: 1rem;
     position: relative;
     background-color: #9999FF;
-    border-radius: 20px;
+    border-radius: 0.5rem;
   }
 
   .roomNumIn {
-    width: 300px;
+    width: 8rem;
     position: absolute;
-    top: 20px;
+    top: 0.2rem;
     left: 50%;
-    transform: translateX(-150px);
+    transform: translateX(-50%);
   }
 
   .room {
@@ -103,11 +104,11 @@
     background-image: url("../assets/wolf.jpg");
     background-repeat: no-repeat;
     background-position: right bottom;
-    background-size: 120px 120px;
+    background-size: 4rem;
     color: white;
     background-color: rgb(0, 33, 66);
     width: 100%;
-    height: 170px;
+    height: 6rem;
     margin-bottom: 5px;
     position: relative;
   }
@@ -118,9 +119,9 @@
     background-size: 80px 80px;
     background-color: cadetblue;
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 0.5rem;
     width: 100%;
-    height: 100px;
+    height: 3.5rem;
     position: relative;
     display: flex;
     justify-content: center;
