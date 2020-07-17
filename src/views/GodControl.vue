@@ -117,8 +117,7 @@
 
         clearInterval(this.timer);
         this.isShow = false;
-        const goduuid = this.godUUID;
-        this.$store.dispatch("startGame", {goduuid});
+        this.$store.dispatch("startGame", this.godUUID);
       },
       //结束游戏
       gameOver() {

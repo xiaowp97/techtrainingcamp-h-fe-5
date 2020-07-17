@@ -13,6 +13,7 @@ export default {
     //请求成功
     if (result.status === 1) {
       const data = result.data;
+
       router.push('/godcontrol/' + personCount);  //把选择的房间人数传给上帝控制页
       commit("CREATE_ROOMS", {data, personCount, roomID})
     }

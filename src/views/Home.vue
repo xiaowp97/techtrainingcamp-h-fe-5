@@ -64,6 +64,7 @@
             >
             </van-picker>
           </div>
+          <van-overlay :show="showControll" @click="toControll" class-name="enterAnimation"></van-overlay>
         </van-tab>
         <van-tab title="新手教程" name="beginnerHelper">
           <div class="ruleIn">
@@ -89,6 +90,7 @@
     name: "HomePage.vue",
     data() {
       return {
+        showControll:false, //隐藏浮层
         joinroomID: '',
         username: '',
         activeKey: 0,
@@ -118,13 +120,15 @@
         } else if (isNaN(this.createdroomID)) {//判断创建房间号是否为数字
           alert("房间号只能为数字");
           return;
-        } else {
-          this.$router.push('/godcontrol/:personCount');
         }
+        this.showControll = true;
         const personCount = `${value}`;
         const roomID = this.createdroomID;
         if (personCount === 0) return;   //用户必须选择房间人数
         this.$store.dispatch("createRooms", {personCount, roomID});
+      },
+      toControll() {
+        this.$router.push('/godcontrol/' + this.$store.state.personCounts);
       },
       onChangeCount(picker, value, index) {
       },
@@ -171,5 +175,12 @@
   h4{
     padding: 0;
     margin: 0;
+  }
+  .enterAnimation {
+    display: flex;
+    background-image:url("../assets/game.jpg");
+    background-size: 225px 225px;
+    background-position: center;
+    transition: all .1s ease-in-out;
   }
 </style>
