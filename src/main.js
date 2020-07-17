@@ -4,11 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import MintUI from 'mint-ui'
-<<<<<<< HEAD
-=======
-import vant from "vant"
-import 'vant/lib/index.css';
->>>>>>> 27a0b06a5cb61708a74d510664f689ea3970fa7f
 import 'mint-ui/lib/style.css'
 import vant from "vant"
 import 'vant/lib/index.css';
