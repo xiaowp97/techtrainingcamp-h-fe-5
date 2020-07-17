@@ -7,8 +7,9 @@
       @click-left="onClickLeft"
     />
     <div class="showotherplayer">
-      <div v-for="player in otherPlayers" :key="player.name" class="singlePlayer">
-        <img src="../assets/people.png" :class="{died: player.role_sta===1}">
+      <div v-for="player in otherPlayers" :key="player.id" class="singlePlayer">
+<!--        如果玩家死亡的话，class=died，头像变灰-->
+        <img src="../assets/people.png" :class="{died: player.role_sta===2}">
         <label>{{player.name}}</label>
       </div>
     </div>
@@ -21,7 +22,7 @@
     <div class="showcurrentplayer" v-else>
       <img :src="currentPlayer.playerimage">
       <div class="right">
-        <span>你的身份:<label class="rolename">【 {{ currentPlayer.rolename }} 】</label></span>
+        <span>你的身份:<label class="rolename">【 {{ currentPlayer.role }} 】</label></span>
         <div>
           <div class="status">
             <van-divider :style="{ color: '#14aea3', borderColor: '#ffffff', marginTop: '10px', marginBottom: '10px'}">游戏状态</van-divider>
@@ -38,8 +39,8 @@
     <!--      游戏结束了，显示胜利还是失败-->
     <van-overlay :show="currentPlayer.rolestatus==3 || currentPlayer.rolestatus==4" @click="toSelectMVP">
       <div class="overlay"  @click="currentPlayer.rolestatus==2">
-        <div class="gameResult" v-if="currentPlayer.rolestatus==3">您胜利了</div>
-        <div class="gameResult" v-if="currentPlayer.rolestatus==4">您失败了</div>
+        <div class="gameResult" v-if="currentPlayer.rolestatus==3"><p>您胜利了</p></div>
+        <div class="gameResult" v-if="currentPlayer.rolestatus==4"><p>您失败了</p></div>
       </div>
     </van-overlay>
     <div class="bottom" v-show="1">
@@ -59,13 +60,14 @@
         playerId: JSON.parse(window.localStorage.getItem("roleID")),//该房间当前玩家uuid
         currentPlayer: {
           roleId: this.$store.state.playerIndex,   //该玩家ID
-          rolestatus: this.$store.state.playerStatus,  //该玩家状态(0---等待中，1--活，2--死，3--胜利，4--失败)
-          rolename: this.$store.state.playerName, //该玩家角色(1--村民、2--女巫、3--预言家、4--猎人、6--狼人)
+          /*rolestatus: this.$store.state.playerStatus,  //该玩家状态(0---等待中，1--活，2--死，3--胜利，4--失败)
+          rolename: this.$store.state.playerName, *///该玩家角色(1--村民、2--女巫、3--预言家、4--猎人、6--狼人)
+          role: '',   //角色名,女巫、狼人等
           playerimage: '', //该玩家角色图片路径
           playerskill: '' ,//角色技能描述
-            //测试用例
-            // rolestatus: '3',
-            // rolename: 2,
+            // //测试用例
+             rolestatus: '3',
+             rolename: 2,
         },
         otherPlayers:this.$store.state.Players, //其他玩家信息
       }
@@ -96,7 +98,9 @@
       loop() {
         const playerId = this.playerId;
         if (this.$route.path === "/roleshow") {
-          this.$store.dispatch("loopStatus", playerId);
+          setInterval(()=>{
+            this.$store.dispatch("loopStatus", playerId);
+          },3000);
         }
       },
         toSelectMVP(){   //玩家点击浮层，会进入选MVP的页面
@@ -108,20 +112,25 @@
       let currPlayer = this.currentPlayer;
 
       if (currPlayer.rolename === 6) { //狼人
-        currPlayer.playerimage = `../../static/img/langren.jpg`;
-        currPlayer.playerskill = '';
+        currPlayer.playerimage = `/static/img/langren.jpg`;
+        currPlayer.playerskill = '白天装作好人混淆视听，夜晚袭击村民，霸占村庄。';
+        this.currentPlayer.role = '狼人';
       } else if (currPlayer.rolename === 1) { //村民
-        currPlayer.playerimage = `../../static/img/pingming.jpg`;
+        currPlayer.playerimage = `/static/img/pingming.jpg`;
         currPlayer.playerskill = '无特殊技能，一觉睡到天亮。';
+        this.currentPlayer.role = '村民';
       } else if (currPlayer.rolename === 3) { //预言家
-        currPlayer.playerimage = `../../static/img/yuyanjia.jpg`;
+        currPlayer.playerimage = `/static/img/yuyanjia.jpg`;
         currPlayer.playerskill = '每天晚上可以查验一名玩家的身份是好人还是狼人。';
+        this.currentPlayer.role = '预言家';
       } else if (currPlayer.rolename === 2) { //女巫
         currPlayer.playerimage = `/static/img/nvwu.jpg`;
-        currPlayer.playerskill = '女巫有两瓶药，解药可以救人，毒药可以杀人.';
+        currPlayer.playerskill = '女巫有两瓶药，解药可以救人，毒药可以杀人。';
+        this.currentPlayer.role = '女巫';
       } else if (currPlayer.rolename === 4) { //猎人
-        currPlayer.playerimage = `../../static/img/lieren.jpg`;
+        currPlayer.playerimage = `/static/img/lieren.jpg`;
         currPlayer.playerskill = '猎人死的时候可以带走场上任意一名玩家';
+        this.currentPlayer.role = '猎人';
       }
       this.loop();
 
@@ -238,10 +247,17 @@
   }
 
   .gameResult {
-    width: 120px;
-    height: 120px;
-    background-color: #fff;
+    width: 300px;
+    height: 300px;
+    background-color: #c6c6c6;
+    /*position: relative;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gameResult>p{
+    /*position: absolute;*/
     color: red;
-    font-size: 1rem;
+    font-size: 2rem;
   }
 </style>

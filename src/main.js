@@ -6,8 +6,11 @@ import router from './router'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import vant from "vant"
-import 'vant/lib/index.css';
+import 'vant/lib/index.css'
+import VueTypedJs from 'vue-typed-js'
+import 'lib-flexible'
 Vue.use(vant);
+Vue.use(VueTypedJs);
 import store from './store'
 import axios from 'axios'
 Vue.config.productionTip = false;

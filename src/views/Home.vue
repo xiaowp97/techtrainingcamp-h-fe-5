@@ -37,7 +37,7 @@
         </van-tab>
         <van-tab title="创建房间" name="createRoom">
           <div class="roomNum">
-            <p class="roomIDspan">请输入6位房间号：</p>
+            <p class="roomIDspan">请输入房间号：</p>
             <van-password-input
               :value="createdroomID"
               :mask="false"
@@ -64,7 +64,7 @@
             >
             </van-picker>
           </div>
-          <van-overlay :show="showControll" @click="toControll" class-name="enterAnimation"></van-overlay>
+
         </van-tab>
         <van-tab title="新手教程" name="beginnerHelper">
           <div class="ruleIn">
@@ -90,7 +90,6 @@
     name: "HomePage.vue",
     data() {
       return {
-        showControll:false, //隐藏浮层
         joinroomID: '',
         username: '',
         activeKey: 0,
@@ -121,14 +120,10 @@
           alert("房间号只能为数字");
           return;
         }
-        this.showControll = true;
         const personCount = `${value}`;
         const roomID = this.createdroomID;
         if (personCount === 0) return;   //用户必须选择房间人数
         this.$store.dispatch("createRooms", {personCount, roomID});
-      },
-      toControll() {
-        this.$router.push('/godcontrol/' + this.$store.state.personCounts);
       },
       onChangeCount(picker, value, index) {
       },

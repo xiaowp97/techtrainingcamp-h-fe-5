@@ -1,6 +1,5 @@
 //state
 export default {
-
   playersAll:[],//所有玩家信息:===>//游戏中阶段---{"id":0,"role_id":0,"role_sta":0},
                                   // 轮询阶段 --- {"id":1,"name":"12","role_sta":1},
   personCounts: 0,//创建房间时的人数

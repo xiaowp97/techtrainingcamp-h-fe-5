@@ -44,15 +44,9 @@ export default new Router({
     },
     {
       path:'/godcontrol/:personCount',
-      //path:'/godcontrol',
       name:'godcontrol',
       component:GodControl
     },
-    // {
-    //   path:'/godcontrol1/:personCount',
-    //   name:'godcontrol1',
-    //   component:GodControl1
-    // },
     {
       redirect:'/login',
       path:'/'

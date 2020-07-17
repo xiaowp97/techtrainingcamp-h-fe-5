@@ -8,7 +8,7 @@
          v-bind:index="index"
          v-bind:key="item.id">
       <span><img :class="{avatar:item.role_sta === 2}" src="../assets/people.png"
-                 alt="player"/>玩家:{{item.id}}</span>
+                 alt="player"/>玩家:{{item.name}}</span>
       <van-button class="van-button" color="linear-gradient(to right, #4bb0ff, #6149f6)" @click="changeState(item)">被刀
       </van-button>
       <van-button class="van-button" color="linear-gradient(to right, #4bb0ff, #6149f6)" @click="changeState(item)">猎杀
@@ -117,7 +117,7 @@
 
         clearInterval(this.timer);
         this.isShow = false;
-        this.$store.dispatch("startGame", this.godUUID);
+        this.$store.dispatch("startGame");
       },
       //结束游戏
       gameOver() {
@@ -179,6 +179,7 @@
     /*flex: 1 1 auto;*/
     font-size: 16px;
     margin-bottom: -20px;
+    background-color: #4bb0ff;
   }
 
   img {

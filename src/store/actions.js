@@ -12,16 +12,15 @@ export default {
     }, "post");
     //请求成功
     if (result.status === 1) {
+      console.log("创建房间:" + result);
       const data = result.data;
-
       router.push('/godcontrol/' + personCount);  //把选择的房间人数传给上帝控制页
-      commit("CREATE_ROOMS", {data, personCount, roomID})
+      commit("CREATE_ROOMS", {data, personCount, roomID});
     }
     //房间号已经存在
     if (result.status === 0) {
       Dialog({message: result.msg});
     }
-    console.log("创建房间:" + result);
 
   },
 
@@ -32,7 +31,6 @@ export default {
       Name: username,
       RoomNum: roomID
     }, "post");
-    console.log("加入房间:" + result);
     //这里要验证房间号是否存在
     //如果不存在
     if (result.status === 0) {
@@ -40,6 +38,7 @@ export default {
     }
     //如果存在该房间
     if (result.status === 1) {
+      console.log("加入房间:" + result);
       const selfData = result.selfData;//包含玩家自己的uuid，id和role_sta
       const othersData = result.othersData; //包含其他玩家的id，name和role_sta
       //跳转roleshow页面
@@ -54,9 +53,9 @@ export default {
     const result = await ajax("https://afqg3f.fn.thelarkcloud.com/FreshState", {
       uuid: playerId
     }, "post");
-    console.log("状态刷新" + result);
     //请求成功
     if (result.status === 1) {
+      console.log("状态刷新" + result);
       const selfData = result.selfData;//包含玩家自己的uuid，id和role_sta
       const othersData = result.othersData; //包含其他玩家的id，name和role_sta
       commit("REFRESH_STATUS", {selfData, othersData})
@@ -67,9 +66,9 @@ export default {
     const result = await ajax("https://afqg3f.fn.thelarkcloud.com/ExitRoom", {
       uuid: playerId
     }, "post");
-    console.log("退出房间" + result.status);
     //请求成功
     if (result === 1) {
+      console.log("退出房间" + result.status);
       // router.back();
     }
     if (result === 0) {
@@ -81,9 +80,9 @@ export default {
       const result = ajax("https://afqg3f.fn.thelarkcloud.com/FreshState", {
         uuid: UUID
       }, "post");
-      console.log("轮询" + result);
       //请求成功
     if (result.status === 1) {
+      console.log("轮询" + result);
       if(result.selfData){
         const selfData = result.selfData;//包含玩家自己的uuid，id和role_sta
         const othersData = result.othersData; //包含其他玩家的id，name和role_sta
@@ -104,8 +103,8 @@ export default {
       uuid: godUUID
     }, "post");
     //请求成功
-    console.log("上帝更新" + result);
     if (result.status === 1) {
+      console.log("上帝更新" + result);
       const playerAllData = result.data;
       commit("CHANGE_STATE", {playerAllData})
     } else if (result.status === 2) {
@@ -117,15 +116,16 @@ export default {
     }
   },
   //开始游戏
-  async startGame({commit}, {godUUID}) {
+  async startGame({commit,state}) {
     const result = await ajax("https://afqg3f.fn.thelarkcloud.com/gameBegin", {
-      uuid: godUUID
+      uuid: state.godID
     }, "post");
-    console.log("开始游戏" + result);
+
     //请求成功
     if (result.status === 1) {
       const startData = result.data;
-      commit("START_GAME", {startData})
+      commit("START_GAME", {startData});
+      console.log("开始游戏" + result);
     }
   },
   //结束游戏
@@ -133,9 +133,9 @@ export default {
     const result = await ajax("https://afqg3f.fn.thelarkcloud.com/DeleteRoom", {
       uuid: godUUID
     }, "post");
-    console.log("结束游戏" + result);
     if (result.status === 1) {
-      commit("GAME_OVER")
+      console.log("结束游戏" + result);
+      commit("GAME_OVER");
     }
   }
 }
