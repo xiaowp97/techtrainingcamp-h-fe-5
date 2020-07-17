@@ -4,6 +4,9 @@
 ### install dependencies
 npm install
 
+### install UI
+npm i vant -S
+
 ### serve with hot reload at localhost:8080
 npm run dev
 
