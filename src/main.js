@@ -37,10 +37,6 @@ import axios from 'axios'
 Vue.config.productioyinTip = false;
 // Vue.prototype.$axios = axios;
 Vue.use(MintUI);
-<<<<<<< HEAD
-=======
-Vue.use(vant);
->>>>>>> 27a0b06a5cb61708a74d510664f689ea3970fa7f
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
