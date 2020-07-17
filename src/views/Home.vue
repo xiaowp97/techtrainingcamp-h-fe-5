@@ -85,57 +85,59 @@
 </template>
 
 <script>
-    export default {
-        name: "HomePage.vue",
-        data() {
-            return {
-                joinroomID: '',
-                username: '',
-                activeKey: 0,
-                operation: 'joinRoom',   //导航栏的操作，加入房间、创建房间、新手帮助
-                showKeyboard: true,
-                columns: ['6', '8', '10'],
-                personCount: this.$store.state.personCounts,     //房间人数，6/8/10
-                createdroomID: '',
-            };
-        },
-        methods: {
-            onChange(index) {
-            },
-            onClickLeft() {  //头部的返回
-                this.$router.back();
-            },
-            onInput(key) {  //键盘输入要创建的房间号
-                this.createdroomID = (this.createdroomID + key).slice(0, 6);
-            },
-            onDelete() {   //键盘删除要创建的房间号
-                this.createdroomID = this.createdroomID.slice(0, this.createdroomID.length - 1);
-            },
-            onComfirmCreate(value, index) {   //确定创建房间
-                if (this.createdroomID === "") {
-                    alert("房间号不能为空");
-                    return;
-                } else if (isNaN(this.createdroomID)) {//判断创建房间号是否为数字
-                    alert("房间号只能为数字");
-                    return;
-                }
-                const personCount = `${value}`;
-                const roomID = this.createdroomID;
-                if (personCount === 0) return;   //用户必须选择房间人数
-                this.$store.dispatch("createRooms", {personCount, roomID});
-            },
-            onChangeCount(picker, value, index) {
-            },
-            oncancelCreate() {
-                this.personCount = 0;
-            },
-            comfirmJoinRoom(){
-                const roomID = this.joinroomID;
-                const username = this.username;
-                this.$store.dispatch('joinRooms', {roomID, username});
-            }
-        },
-    }
+  export default {
+    name: "HomePage.vue",
+    data() {
+      return {
+        joinroomID: '',
+        username: '',
+        activeKey: 0,
+        operation: 'joinRoom',   //导航栏的操作，加入房间、创建房间、新手帮助
+        showKeyboard: true,
+        columns: ['6', '8', '10'],
+        personCount: this.$store.state.personCounts,     //房间人数，6/8/10
+        createdroomID: '',
+      };
+    },
+    methods: {
+      onChange(index) {
+      },
+      onClickLeft() {  //头部的返回
+        this.$router.back();
+      },
+      onInput(key) {  //键盘输入要创建的房间号
+        this.createdroomID = (this.createdroomID + key).slice(0, 6);
+      },
+      onDelete() {   //键盘删除要创建的房间号
+        this.createdroomID = this.createdroomID.slice(0, this.createdroomID.length - 1);
+      },
+      onComfirmCreate(value, index) {   //确定创建房间
+        if (this.createdroomID === "") {
+          alert("房间号不能为空");
+          return;
+        } else if (isNaN(this.createdroomID)) {//判断创建房间号是否为数字
+          alert("房间号只能为数字");
+          return;
+        } else {
+          this.$router.push('/godcontrol/:personCount');
+        }
+        const personCount = `${value}`;
+        const roomID = this.createdroomID;
+        if (personCount === 0) return;   //用户必须选择房间人数
+        this.$store.dispatch("createRooms", {personCount, roomID});
+      },
+      onChangeCount(picker, value, index) {
+      },
+      oncancelCreate() {
+        this.personCount = 0;
+      },
+      comfirmJoinRoom(){
+        const roomID = this.joinroomID;
+        const username = this.username;
+        this.$store.dispatch('joinRooms', {roomID, username});
+      }
+    },
+  }
 </script>
 
 <style scoped>

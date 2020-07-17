@@ -6,9 +6,9 @@
       </div>
       <div class="modal-body">
         <label style="font-size: 20px">房间号</label>
-        <input type="text" id="roomID" v-model="roomID"><br>
+        <input  id="roomID" v-model="roomID"><br><br>
         <label style="font-size: 20px">用户名</label>
-        <input type="text" id="username" v-model="username">
+        <input  id="username" v-model="username" style="height: 20px">
       </div>
       <div class="modal-footer">
         <label v-show="!isFind" id="errorInfo">该房间不存在</label>
@@ -96,7 +96,7 @@
     /*padding: 10px 10px;*/
     width: 100%;
     height: 100px;
-    top: 30px;
+    top: 25px;
     /*display: flex;*/
     /*align-items: center;*/
     /*justify-content: center;*/
@@ -129,11 +129,7 @@
   .btn-confirm {
     color: #fff;
     background-color: #2d8cf0;
-    margin-top: 5px;
   }
 
-  * {
-    box-sizing: border-box;
-  }
 
 </style>

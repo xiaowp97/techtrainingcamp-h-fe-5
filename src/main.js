@@ -8,33 +8,9 @@ import 'mint-ui/lib/style.css'
 import vant from "vant"
 import 'vant/lib/index.css';
 Vue.use(vant);
-// import Divider from 'vant/lib/divider'
-// import 'vant/lib/divider/style'
-// Vue.use(Divider)
-//
-// import Button from 'vant/lib/button'
-// import 'vant/lib/button/style'
-// Vue.use(Button)
-//
-// import Overlay from 'vant/lib/overlay'
-// import 'vant/lib/overlay/style'
-// Vue.use(Overlay)
-//
-// import  Loading from 'vant/lib/loading'
-// import 'vant/lib/loading/style'
-// Vue.use(Loading)
-//
-// import Picker from 'vant/lib/picker'
-// import 'vant/lib/picker/style'
-// Vue.use(Picker)
-//
-// import Toast from "vant/lib/toast";
-// import  'vant/lib/toast/style'
-// Vue.use(Toast)
-
 import store from './store'
 import axios from 'axios'
-Vue.config.productioyinTip = false;
+Vue.config.productionTip = false;
 // Vue.prototype.$axios = axios;
 Vue.use(MintUI);
 /* eslint-disable no-new */

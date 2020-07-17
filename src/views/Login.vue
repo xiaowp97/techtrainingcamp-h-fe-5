@@ -76,7 +76,6 @@
 </script>
 
 <style scoped>
-@rem: 75rem;
   html,body{
     margin: 0;
     padding: 0;
@@ -98,10 +97,10 @@
   /*}*/
   .box{
     width: 100%;
-    height: 15rem;
+    height: 667px;
     margin: 0;
     background-image: url("../assets/wolf1.jpg");
-    background-size: 10rem ;
+    background-size: 375px 667px;
     background-repeat: no-repeat;
     color: white;
     position: absolute;
@@ -192,8 +191,8 @@
   }
   .ruleBackGround{
     z-index: -100;
-    width: 10rem;
-    height: 538px;
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;

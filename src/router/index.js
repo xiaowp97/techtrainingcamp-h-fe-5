@@ -44,6 +44,7 @@ export default new Router({
     },
     {
       path:'/godcontrol/:personCount',
+      //path:'/godcontrol',
       name:'godcontrol',
       component:GodControl
     },
