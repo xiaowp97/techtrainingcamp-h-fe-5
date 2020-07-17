@@ -1,13 +1,13 @@
 <template>
-  <div style='width:10rem'>
+  <div>
     <div class="welcomePart">
       <label class="back" @click="$router.back()">返回</label>
-      <h2 style='font-size:0.8rem'>创建房间</h2>
-      <h4 style='font-size:0.5rem'>您的角色是：上帝</h4>
+      <h2>创建房间</h2>
+      <h4>您的角色是：上帝</h4>
     </div>
     <div class="roomNum">
       <div class="roomNumIn">
-        <span class="room">房间号</span><input style="width:8rem" v-model="roomID">
+        <span class="room">房间号</span><input v-model="roomID">
       </div>
     </div>
     <div class="personSum" :class="{on:personCount===6}" @click="personCount=6">
@@ -20,7 +20,7 @@
       <label class="countlabel">10人房</label>
     </div>
     <button @click="confirmCreate" id="confirm">创建</button>
-    <button @click="cancelCreate" id="cancel">取消</button>
+<!--    <button @click="cancelCreate" id="cancel">取消</button>-->
   </div>
 </template>
 
@@ -48,9 +48,9 @@
         if (personCount === 0) return;   //用户必须选择房间人数
         this.$store.dispatch("createRooms", {personCount, roomID});
       },
-      cancelCreate() {
-        this.personCount = 0;
-      }
+      // cancelCreate() {
+      //   this.personCount = 0;
+      // }
     }
   }
 </script>
@@ -69,20 +69,19 @@
   }
 
   .roomNum {
-    width:10rem;
-    height: 3.5rem;
-    font-size: 1rem;
+    height: 80px;
+    font-size: 24px;
     position: relative;
     background-color: #9999FF;
-    border-radius: 0.5rem;
+    border-radius: 20px;
   }
 
   .roomNumIn {
-    width: 8rem;
+    width: 400px;
     position: absolute;
-    top: 0.2rem;
+    top: 20px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-200px);
   }
 
   .room {
@@ -104,11 +103,11 @@
     background-image: url("../assets/wolf.jpg");
     background-repeat: no-repeat;
     background-position: right bottom;
-    background-size: 4rem;
+    background-size: 120px 120px;
     color: white;
     background-color: rgb(0, 33, 66);
     width: 100%;
-    height: 6rem;
+    height: 170px;
     margin-bottom: 5px;
     position: relative;
   }
@@ -119,9 +118,9 @@
     background-size: 80px 80px;
     background-color: cadetblue;
     border: 2px solid white;
-    border-radius: 0.5rem;
+    border-radius: 20px;
     width: 100%;
-    height: 3.5rem;
+    height: 100px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -139,7 +138,7 @@
     border-radius: 8px;
     color: #fff;
     background-color: rgba(0, 33, 66, 0.8);
-    width: 80px;
+    width: 120px;
     height: 36px;
     border: none;
     cursor: pointer;
@@ -161,5 +160,6 @@
   input {
     height: 24px;
     margin-bottom: 5px;
+    width: 150px;
   }
 </style>
