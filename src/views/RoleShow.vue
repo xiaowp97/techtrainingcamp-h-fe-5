@@ -40,7 +40,7 @@
                   <span style="font-size: 16px">
                     你的身份:
                     <label class="rolename"
-                    >【{{ currentPlayer.role }}】</label
+                    >{{ currentPlayer.role }}</label
                     >
                   </span>
                   <div>
@@ -78,7 +78,7 @@
                     >
                     <div>
                       <span class="skill"
-                      >【技能】{{ currentPlayer.playerskill }}</span
+                      >{{ currentPlayer.playerskill }}</span
                       >
                     </div>
                   </div>
@@ -263,11 +263,11 @@
           this.currentPlayer.role = '预言家';
         } else if (oldValue.rolename === 2) { //女巫
           this.currentPlayer.playerimage = `../../static/img/nvwu.jpg`;
-          this.currentPlayer.playerskill = '女巫有两瓶药，解药可以救人，毒药可以杀人。';
+          this.currentPlayer.playerskill = '有两瓶药，解药可以救人，毒药可以杀人。';
           this.currentPlayer.role = '女巫';
         } else if (oldValue.rolename === 4) { //猎人
           this.currentPlayer.playerimage = `../../static/img/lieren.jpg`;
-          this.currentPlayer.playerskill = '猎人死的时候可以带走场上任意一名玩家';
+          this.currentPlayer.playerskill = '死的时候可以带走场上任意一名玩家';
           this.currentPlayer.role = '猎人';
         }
       }
@@ -404,7 +404,7 @@
     width: 50%;
     float: right;
     font-size: 1rem;
-    padding-top: 15%;
+    padding-top: 5%;
   }
 
   .rolename {
@@ -422,7 +422,7 @@
   }
 
   .skill {
-    font-size: 6rem;
+    font-size: 16px;
   }
 
   .overlay {
